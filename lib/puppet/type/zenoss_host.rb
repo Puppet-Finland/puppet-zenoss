@@ -1,21 +1,5 @@
-#########################################################################
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Puppet Type: Zenoss_host
-#
-#
 Puppet::Type.newtype(:zenoss_host) do
     @doc = "Manages hosts in Zenoss."
 
@@ -60,8 +44,8 @@ Puppet::Type.newtype(:zenoss_host) do
             debug("    grouppath: '#{resource[:grouppath]}' specified in mainfest")
             debug("    systempath: '#{resource[:systempath]}' specified in mainfest")
             debug("")
-            # if we don't find the device with the name
-            # it might just not be renamed yet, thus we also search for the IP as name.
+            
+            # if we don't find the device by name it might not be renamed yet, thus we also search for the IP as its 'name'.
             unless provider.existsDevice(resource[:name], resource[:zenosstype])
                 result = provider.existsDevice(resource[:ip], resource[:zenosstype])
             else
@@ -112,9 +96,8 @@ Puppet::Type.newtype(:zenoss_host) do
         desc "The host type (kernel fact)."
         # validation missing
  
-        # munge values, depending on the kernel of the system 
-        # if zenosstype depends on more than just the kernel 
-        #    this should be solved with a custom fact.
+        # Munge values, depending on the kernel of the system
+        # If zenosstype depends on more than just the kernel then this should be solved with a custom fact.
         munge do |value|
             case value
             when "Linux" 
