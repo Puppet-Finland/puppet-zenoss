@@ -56,12 +56,6 @@ It requires the implementation of create, destroy and exists? methods on the pro
 Thus, in this case puppet assumes that it manages the whole lifecycle of the object. Initially the ensure property is not set to present. If ensure => present is specified in the manifest puppet checks if the host was added to zenoss, calling the exists? method, and if not it executes the create method. Then the ensure property is set to present. If the previously added device is manually removed from zenoss, puppet will not re-add the device or check if it was added as the property ensure is already set to present.
 To remove a device from zenoss the destroy method must be implemented, the ensure property in the manifest should be set to absent and the device should exist. Only in this case the device is removed and the ensure property is set to absent, which will make puppet adding the host again as soon as the ensure property is set to present in the manifest file.
 
-2.2	Renamed property not necessary anymore
-
-The renamed property was introduced to allow puppet in every run to check if a device was already renamed or not. This was necessary because a bug in zenoss prevented the renaming of a device before performance data for that device was available. If the version 2.3.0 is patched accordingly the renaming should work flawless and the renamed property is not necessary anymore.
-
-The corresponding ticket: http://dev.zenoss.com/trac/ticket/4020
-
 License
 =======
 
