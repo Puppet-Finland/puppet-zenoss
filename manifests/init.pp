@@ -16,6 +16,7 @@ class zenoss {
             serialnumber => "$serialnumber",
             grouppath => hiera('zenoss::group_path','/Unknown'),
             systempath => hiera('zenoss::system_path','/Unknown'),
+            locationpath => hiera('zenoss::location_path','/Unknown'),
        }
 }
     

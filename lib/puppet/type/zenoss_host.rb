@@ -43,6 +43,7 @@ Puppet::Type.newtype(:zenoss_host) do
             debug("    serialnumber: '#{resource[:serialnumber]}' mapped from Facter.serialnumber in manifest")
             debug("    grouppath: '#{resource[:grouppath]}' specified in mainfest")
             debug("    systempath: '#{resource[:systempath]}' specified in mainfest")
+            debug("    locationpath: '#{resource[:locationpath]}' specified in mainfest")
             debug("")
             
             # if we don't find the device by name it might not be renamed yet, thus we also search for the IP as its 'name'.
@@ -51,7 +52,7 @@ Puppet::Type.newtype(:zenoss_host) do
             else
                 result = true
             end 
-            debug("<== result: #{result}.")
+            debug("<== result: #{result}")
             return result ? :available : :notavailable
         end
     end
@@ -63,7 +64,7 @@ Puppet::Type.newtype(:zenoss_host) do
 
     newparam(:zenossuri) do
         # validation missing
-        desc "The Zenoss DMD URIi, eg. 'http://user:pwd@localhost:8080/zport/dmd'."
+        desc "The Zenoss DMD URI, eg. 'http://user:pwd@localhost:8080/zport/dmd'."
     end
 
     newparam(:serialnumber) do
@@ -81,6 +82,11 @@ Puppet::Type.newtype(:zenoss_host) do
         desc "The Zenoss system path."
     end
 
+    newparam(:locationpath) do
+        # validation missing
+        desc "The Zenoss location path."
+    end
+
     newparam(:name) do
         desc "The name of the host."
         isnamevar
@@ -88,8 +94,12 @@ Puppet::Type.newtype(:zenoss_host) do
     end
 
     newparam(:ip) do
-        # validation missing
         desc "The IP address of the host."
+        validate do |value|
+            unless value =~ /^(([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|2[0-5][0-5]|2[0-4]\d)$/
+                raise ArgumentError, "%s is not a valid ip address" % value
+            end   
+        end
     end
 
     newparam(:zenosstype) do
