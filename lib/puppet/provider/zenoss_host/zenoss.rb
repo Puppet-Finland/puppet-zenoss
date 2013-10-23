@@ -66,8 +66,8 @@ Puppet::Type.type(:zenoss_host).provide(:zenoss) do
                         tag = '',
                         serialNumber = '',
                         zSnmpCommunity = '',
-                        zSnmpPort = 161,  
-                        zSnmpVer = 'v3',
+                        zSnmpPort = '',  
+                        zSnmpVer = '',
                         rackSlot = 0,
                         productionState = 1000,
                         comments = "Added: #{Time.now.to_s}",
@@ -106,7 +106,7 @@ Puppet::Type.type(:zenoss_host).provide(:zenoss) do
     # Renames a device
     def renameDevice(_devName, _devPath, _newDevName)
         begin
-            info("==> Rename the device #{_devName} to #{_newDevName} ...")
+            info("==> Rename the device #{_devName} to #{_newDevName}...")
             uribase = resource[:zenossuri]
             uriext = "/Devices#{_devPath}/devices/#{_devName}"
             uri = "#{uribase}#{uriext}"
